@@ -1,0 +1,71 @@
+<section class="content-container loaded-{{loaded}} list" data-ng-controller="ContentsController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Contents</h1>
+    </div>
+
+    <div class="row" data-ng-repeat="content in contents | orderBy: 'name'">
+        <div class="col-sm-9">
+            <a data-ng-href="#!/contents/{{content._id}}">
+                <h4 class="" data-ng-bind="content.name"></h4>
+
+                <!-- ADD in Content Item's selected ROLE & SEGMENT here -->
+                <!--ui-select ng-model="content.role.selected"
+                           theme="bootstrap"
+                           reset-search-input="false"
+                           style="width: 300px;">
+                    <ui-select-match placeholder="Select a Role">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="role in roles track by $index"
+                                       refresh-delay="0">
+                        <div ng-bind="role.title | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select>
+
+                <ui-select ng-model="content.segment.selected"
+                           theme="bootstrap"
+                           reset-search-input="false"
+                           style="width: 300px;">
+                    <ui-select-match placeholder="Select a Segment">{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="segment in segments track by $index"
+                                       refresh-delay="0">
+                        <div ng-bind="segment.name | highlight: $select.search"></div>
+                    </ui-select-choices>
+                </ui-select-->
+
+
+            </a><br/>
+			<small>
+				<em class="text-muted">
+					Created on
+					<span data-ng-if="!content.created">Jan 1 2015</span>
+					<span data-ng-if="content.created" data-ng-bind="content.created | date:'mediumDate'"></span>
+					by
+					<span data-ng-if="!content.creator">admin</span>
+					<span data-ng-if="content.creator" data-ng-bind="content.creator"></span>
+				</em>
+			</small>
+        </div>
+        <div class="col-sm-3 list-buttons">
+	        <div class="btn-group pull-right hidden-xs">
+	            <a class="btn btn-info" href="#!/contents/{{content._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(content);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+	        <div class="btn-group visible-xs">
+	            <a class="btn btn-info" href="#!/contents/{{content._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(content);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+        </div> 
+    </div>
+
+
+    <div class="alert alert-warning text-center" data-ng-hide="!contents.$resolved || contents.length">
+    	No Contents yet, why don't you <a href="/#!/contents/create">create one</a>?
+    </div>
+</section>

@@ -1,0 +1,56 @@
+<section class="content-container loaded-{{loaded}}" data-ng-controller="ContenttypesController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1 data-ng-bind="contenttype.name"></h1>
+	</div>
+	<div class="pull-right" >
+		<a class="btn btn-primary" href="/#!/contenttypes/{{contenttype._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		<a class="btn btn-primary" data-ng-click="confirmRemove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+	<small>
+		<em class="text-muted">
+			Created on
+			<span data-ng-if="!contenttype.created">Jan 1 2015</span>
+			<span data-ng-if="contenttype.created" data-ng-bind="contenttype.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-if="!contenttype.creator">admin</span>
+			<span data-ng-if="contenttype.creator" data-ng-bind="contenttype.creator"></span>
+		</em>
+	</small>
+
+
+    <div ng-repeat="field in contenttype.fields" class="list-group-item-heading">
+        <h4>{{field.name}}</h4>
+
+        <div class="form-group-alt">
+
+            <div class="form-group">
+                <label class="control-label" for="fieldname">Field Name</label> : <span data-ng-bind="field.name" class=""></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="label">Label</label> : <span data-ng-bind="field.label" class=""></span>
+            </div>
+        </div>
+        <div class="form-group-alt">
+            <div class="form-group">
+                <label class="control-label" for="name">Field Type</label> :                                                  
+                <span data-ng-bind="field.type.selected" class=""></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="label">Placeholder</label> : <span data-ng-bind="field.placeholder" class=""></span>
+            </div>
+        </div>
+        <div class="form-group-alt">
+            <div class="form-group">
+                <label class="control-label" for="help">Help Text</label> : <span data-ng-bind="field.help" class=""></span>
+            </div>
+            <div class="form-group" ng-if="field.showCharCount">
+                <label class="control-label" for="char_count">Target Characters</label> : <span data-ng-bind="field.char_count" class=""></span>
+            </div>
+        </div>
+        <hr/>
+</section>

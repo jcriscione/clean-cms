@@ -1,0 +1,35 @@
+<section class="content-container loaded-{{loaded}}" data-ng-controller="ContentsController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1 data-ng-bind="content.name"></h1>
+	</div>
+	<div class="pull-right">
+		<a class="btn btn-primary" href="/#!/contents/{{content._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		<!--a class="btn btn-danger" data-ng-click="confirmRemove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a-->
+	</div>
+	<small>
+		<em class="text-muted">
+			Created on
+			<span data-ng-if="!content.created">Jan 1 2015</span>
+			<span data-ng-if="content.created" data-ng-bind="content.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-if="!content.creator">admin</span>
+			<span data-ng-if="content.creator" data-ng-bind="content.creator"></span>
+		</em>
+	</small>
+    <div class="form-group">
+        <label class="control-label" for="name">Role</label>
+        <p data-ng-bind="content.filters.role.selected.name"></p>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="name">Segment</label>
+        <p data-ng-bind="content.filters.segment.selected.name"></p>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="name">Content Type</label>
+        <p data-ng-bind="content.type.selected.name"></p>
+    </div>
+</section>

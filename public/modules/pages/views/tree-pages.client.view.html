@@ -1,0 +1,68 @@
+<section class="content-container loaded-{{loaded}} page-site-tree" data-ng-controller="PagesController"
+	data-ng-init="getSiteTree()">
+
+	<div class="page-header">
+		<h1>Site Tree</h1>
+	</div>
+
+	<ul class="site-tree list-unstyled">
+		<li data-ng-repeat="page in tree.pages" class="page-level-{{page.level}}"
+			data-ng-class="{'is-open': page.isOpen}">
+			<div class="row tree-page">
+				<div class="col-md-5">
+					<div class="tree-page-name">
+						<span aria-hidden=true data-ng-if="page.locations.length" class="glyphicon"
+							data-ng-class="{'glyphicon-minus': page.isOpen, 'glyphicon-plus': !page.isOpen}"
+							data-ng-click="page.isOpen = !page.isOpen">
+						</span>
+						<span aria-hidden=true data-ng-if="!page.locations.length"
+							class="glyphicon glyphicon-minus tree-childless"></span>
+
+						<a ui-sref="viewPage({pageId: page._id})">{{page.name}}</a>
+						<span class="label label-default tree-item-type">page</span>
+					</div>
+				</div>
+				<div class="tree-page-url col-md-7">
+					<code>{{page.url}}</code>
+				</div>
+			</div>
+			<div class="row tree-contents" data-ng-hide="!page.isOpen">
+				<dl class="tree-locations" data-ng-repeat="location in page.locations">
+					<dt class="tree-location-name">{{location.name}}</dt>
+					<dd class="tree-content-name" data-ng-repeat="content in location.contents">
+						<span aria-hidden=true data-ng-if="content.collections.length" class="glyphicon"
+							data-ng-class="{'glyphicon-minus': content.isOpen,
+							'glyphicon-plus': !content.isOpen}"
+							data-ng-click="content.isOpen = !content.isOpen">
+						</span>
+						<span aria-hidden=true data-ng-if="!content.collections.length"
+							class="glyphicon glyphicon-minus tree-childless"></span>
+
+						<a ui-sref="viewContent({contentId: content._id})">{{content.name}}</a>
+						<span class="label label-default tree-item-type">content: {{content.type}}</span>
+
+						<ul class="tree-collections list-unstyled"
+							data-ng-hide="!content.collections.length || !content.isOpen">
+
+							<li data-ng-repeat="collection_id in content.collections">
+								<span data-ng-init="collection = findWhere(tree.collections, {'_id': collection_id})">
+									<a ui-sref="viewContent({contentId: collection._id})">
+										{{collection.name}}
+									</a>
+									<span class="label label-default tree-item-type">
+										collection: {{collection.type}}
+									</span>
+								</span>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+			</div>
+		</li>
+	</ul>
+
+	<div class="alert alert-warning text-center" data-ng-hide="tree.pages.length">
+		No Pages yet, why don't you <a href="/#!/pages/create">create one</a>?
+	</div>
+
+</section>

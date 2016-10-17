@@ -1,0 +1,128 @@
+<section class="content-container loaded-{{loaded}}" data-ng-controller="ContenttypesController" data-ng-init="findOne()">
+    <div class="page-header">
+        <h1>Edit Content Type</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-horizontal" name="contentTypeForm" data-ng-submit="update()" novalidate>
+            <fieldset>
+				<small>
+					<em class="text-muted">
+						Created on
+						<span data-ng-if="!contenttype.created">Jan 1 2015</span>
+						<span data-ng-if="contenttype.created" data-ng-bind="contenttype.created | date:'mediumDate'"></span>
+						by
+						<span data-ng-if="!contenttype.creator">admin</span>
+						<span data-ng-if="contenttype.creator" data-ng-bind="contenttype.creator"></span>
+					</em>
+				</small>
+                <div class="form-group" ng-class="{ 'has-error' : contentTypeForm.name.$invalid}">
+                    <label class="control-label" for="name">Name</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="contenttype.name" id="name" name="name" class="form-control" placeholder="Name" required>
+                        <p ng-show="contentTypeForm.name.$invalid" class="help-block">Content type name is required.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h2>Fields</h2>
+                </div>
+                <div ng-repeat="field in contenttype.fields">
+                    <ng-form name="fieldForm">
+                        <div class="form-group">
+                            <div class="list-group-item-heading">
+                                <h4>{{field.name}}</h4>
+                            </div>
+
+                            <div class="pull-right list-buttons">
+                                <button type="button" class="btn-up" ng-click="moveItemUp($index)" ng-disabled="$first"></button>
+                                <button type="button" class="btn-down" ng-click="moveItemDown($index)" ng-disabled="$last"></button>
+                                <a class="btn btn-danger" ng-click="confirmRemoveField($index)">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group-alt">
+
+                            <div class="form-group" ng-class="{ 'has-error' : fieldForm.fieldname.$invalid}">
+                                <label class="control-label" for="fieldname">Field Name</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="field.name" id="fieldname" name="fieldname" class="form-control" placeholder="Field Name" required>
+                                    <p ng-show="fieldForm.fieldname.$invalid" class="help-block">Field name is required.</p>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error' : fieldForm.label.$invalid}">
+                                <label class="control-label" for="label">Label</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="field.label" id="label" name="label" class="form-control" placeholder="label text" required>
+                                    <p ng-show="fieldForm.label.$invalid" class="help-block">Field label is required.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="help">Help Text</label>
+                                <div class="controls">
+                                    <textarea data-ng-model="field.help" id="help" class="form-control" placeholder="help text"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group-alt">
+                            <div class="form-group" ng-class="{ 'has-error' : fieldForm.fieldtype.$invalid}">
+                                <label class="control-label" for="name">Field Type</label>
+                                <div class="controls">
+                                    <ui-select ng-model="field.type.selected"
+                                        theme="bootstrap"
+                                        reset-search-input="false"
+                                        style="width: 300px;" ng-change="changeTypes($index, $select.selected)" name="fieldtype" required>
+                                        <ui-select-match placeholder="Enter a type...">{{$select.selected}}</ui-select-match>
+                                        <ui-select-choices repeat="type in fieldTypes track by $index"
+                                            refresh-delay="0">
+                                            <div ng-bind="type | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <p ng-show="fieldForm.fieldtype.$invalid" class="help-block">Field type is required.</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="label">Placeholder</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="field.placeholder" id="label" class="form-control" placeholder="placeholder Text">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="required">Required?</label>
+                                <div class="controls">
+                                    <input type="checkbox" data-ng-model="field.required" id="required" class="form-control" placeholder="#666">
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-if="field.showCharCount">
+                                <label class="control-label" for="char_count">Target Characters</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="field.char_count" id="char_count" class="form-control" placeholder="0">
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-show="field.showOptions">
+                                <label class="control-label" for="options">Options</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="field.options" id="options" class="form-control" placeholder="comma delimited values">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr/>
+                    </ng-form>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button" ng-click="addNew()">Add New Field</button>
+                </div>
+                <div class="form-group">
+                    <hr/>
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>

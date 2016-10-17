@@ -1,0 +1,45 @@
+<section class="content-container loaded-{{loaded}} list" data-ng-controller="RolesController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Roles</h1>
+    </div>
+    <div class="row" data-ng-repeat="role in roles | orderBy: 'name'">
+        <div class="col-sm-9">
+            <a data-ng-href="#!/roles/{{role._id}}">
+                <h4 class="" data-ng-bind="role.title"></h4>
+            </a><br/>
+			<small>
+				<em class="text-muted">
+					Created on
+					<span data-ng-if="!role.created">Jan 1 2015</span>
+					<span data-ng-if="role.created" data-ng-bind="role.created | date:'mediumDate'"></span>
+					by
+					<span data-ng-if="!role.creator">admin</span>
+					<span data-ng-if="role.creator" data-ng-bind="role.creator"></span>
+				</em>
+			</small>
+        </div>
+        <div class="col-sm-3">
+	        <div class="btn-group pull-right hidden-xs">
+	            <a class="btn btn-info" href="#!/roles/{{role._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(role);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+	        <div class="btn-group visible-xs">
+	            <a class="btn btn-info" href="#!/roles/{{role._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(role);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+        </div>
+     </div>
+
+
+    <div class="alert alert-warning text-center" data-ng-hide="!roles.$resolved || roles.length">
+    	No Roles yet, why don't you <a href="/#!/roles/create">create one</a>?
+    </div>
+</section>

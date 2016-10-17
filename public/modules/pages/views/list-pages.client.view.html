@@ -1,0 +1,77 @@
+<section class="content-container loaded-{{loaded}} list" data-ng-controller="PagesController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Pages</h1>
+    </div>
+    <div class="row" data-ng-repeat="page in pages | orderBy: 'sort'">
+		<div class="col-sm-7">
+            <a data-ng-href="#!/pages/{{page._id}}">
+                <h4 class="" data-ng-bind="page.name"></h4>
+            </a><br/>
+			<small>
+				<em class="text-muted">
+					Created on
+					<span data-ng-if="!page.created">Jan 1 2015</span>
+					<span data-ng-if="page.created" data-ng-bind="page.created | date:'mediumDate'"></span>
+					by
+					<span data-ng-if="!page.creator">admin</span>
+					<span data-ng-if="page.creator" data-ng-bind="page.creator"></span>
+				</em>
+				<br/>
+				<em class="text-muted" data-ng-if="page.published">
+					Published on
+					<span data-ng-bind="page.published | date:'mediumDate'"></span>
+					by
+					<span data-ng-bind="page.publisher"></span>
+				</em>
+			</small>
+        </div>
+        <div class="col-sm-5 list-view" ng-if="authentication.canEdit()">
+            <div class="btn-group">
+                <!--a class="btn btn-danger" data-ng-click="confirmRemove(page);">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a-->
+
+                <div class="">
+                    <!--button style="margin-left: 5px;" type="button" class="btn btn-success pull-right" ng-click="publishPageFromList(page._id)" ng-show="authentication.isAdmin()">Publish</button-->
+                    &nbsp;
+                    <!--div class="dropdown pull-right">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                            Preview
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            <li ng-repeat="language in settings.languages" role="presentation">
+                                <a role="menuitem" tabindex="-1" href="{{page.frontEndUrl}}/{{page.url}}?pvw={{page._id}}&language={{language.locale}}" target="_blank">{{language.name}}</a>
+                            </li>
+                        </ul>
+
+                    </div-->
+                    &nbsp;
+
+                    <a style="margin-right: 5px;" type="button" class="btn btn-info pull-right" href="/#!/pages/{{page._id}}/edit">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </a>
+
+                    <div class="button-controls">
+                    <button type="button" class="btn-up" ng-click="movePageUp($parent.$index, $index)" ng-disabled="$first"></button>
+                    <button type="button" class="btn-down" ng-click="movePageDown($parent.$index, $index)" ng-disabled="$last"></button>
+                    <button type="button" class="btn-remove" ng-click="confirmRemove(page);"></button>
+                    </div>
+                </div>
+	        </div>
+
+        </div>
+        <div class="col-sm-3" ng-if="!authentication.canEdit()">
+            <div class="btn-group">
+                <a href="{{page.frontEndUrl}}/{{page.url}}?pvw={{page._id}}" target="_new" class="btn btn-primary pull-right">Preview</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-warning text-center" data-ng-hide="!pages.$resolved || pages.length">
+    	No Pages yet, why don't you <a href="/#!/pages/create">create one</a>?
+    </div>
+
+    
+
+</section>

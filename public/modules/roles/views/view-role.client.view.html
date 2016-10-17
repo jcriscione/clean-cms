@@ -1,0 +1,23 @@
+<section class="content-container loaded-{{loaded}}" data-ng-controller="RolesController" data-ng-init="findOne()">
+	<div class="role-header">
+		<h1 data-ng-bind="role.name"></h1>
+	</div>
+	<div class="pull-right">
+		<a class="btn btn-primary" href="/#!/roles/{{role._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		<a class="btn btn-primary" data-ng-click="confirmRemove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+	<small>
+		<em class="text-muted">
+			Created on
+			<span data-ng-if="!role.created">Jan 1 2015</span>
+			<span data-ng-if="role.created" data-ng-bind="role.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-if="!role.creator">admin</span>
+			<span data-ng-if="role.creator" data-ng-bind="role.creator"></span>
+		</em>
+	</small>
+</section>

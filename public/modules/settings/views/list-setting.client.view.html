@@ -1,0 +1,206 @@
+<section class="content-container loaded-{{loaded}}" data-ng-controller="SettingsController" data-ng-init="findOne()">
+    <div class="page-header">
+        <h1>Site Information</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-horizontal" data-ng-submit="update()" novalidate>
+	        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="country">Local Code</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="settings.country" id="country" class="form-control" placeholder="en-us" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="countrycode">Country</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="settings.countrycode" id="countrycode" class="form-control" placeholder="US" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <hr/>
+                    <button type="button" class="btn btn-primary pull-right" ng-click="showEditor()">Add Language</button>
+                    <h2>Languages</h2>
+                    <div ng-repeat="language in settings.languages">
+                        <h3>{{language.name}} ({{language.locale}}) <button type="button" class="btn btn-warning" ng-click="removeLanguage($index)">Remove Language</button></h3>
+                    </div>
+                    <div class="form-group" ng-show="showEdit">
+                        <br/>
+                        <div class="form-group">
+		                    <label class="control-label" for="language">Language</label>
+		                    <div class="controls setting-dropdown">
+		                        <!--input type="text" data-ng-model="language" id="language" class="form-control" placeholder="language" required-->
+
+                                <select data-ng-model="language" id="language" class="btn btn-default form-control ui-select-match" required>
+                                    <option value="bg">Bulgarian</option>
+                                    <option value="zh">Chinese</option>
+                                    <option value="hr">Croatian</option>
+                                    <option value="cs">Czech</option>
+                                    <option value="da">Danish</option>
+                                    <option value="nl">Dutch</option>
+                                    <option value="en">English</option>
+                                    <option value="et">Estonian</option>
+                                    <option value="fi">Finnish</option>
+                                    <option value="fr">French</option>
+                                    <option value="de">German</option>
+                                    <option value="el">Greek</option>
+                                    <option value="he">Hebrew</option>
+                                    <option value="hu">Hungarian</option>
+                                    <option value="it">Italian</option>
+                                    <option value="ja">Japanese</option>
+                                    <option value="kk">Kazakh</option>
+                                    <option value="ko">Korean</option>
+                                    <option value="lv">Latvian</option>
+                                    <option value="lt">Lithuanian</option>
+                                    <option value="no">Norwegian</option>
+                                    <option value="pl">Polish</option>
+                                    <option value="pt">Portugese</option>
+                                    <option value="ro">Romanian</option>
+                                    <option value="ru">Russian</option>
+                                    <option value="sr">Serbian</option>
+                                    <option value="sk">Slovak</option>
+                                    <option value="sl">Slovenian</option>
+                                    <option value="es">Spanish</option>
+                                    <option value="sv">Swedish</option>
+                                    <option value="tr">Turkish</option>
+                                    <option value="uk">Ukranian</option>
+                                    <option value="uz">Uzbek</option>
+                                    <option value="vi">Vietnamese</option>
+		                        </select>
+
+                            </div>
+		                </div>
+
+		                <div class="form-group">
+		                    <label class="control-label" for="locale">Locale Code</label>
+		                    <div class="controls">
+		                        <input type="text" data-ng-model="locale" id="locale" class="form-control" placeholder="locale" required>
+		                    </div>
+		                </div>
+		                <div class="form-group">
+		                    <input type="button" value="Save Language" class="btn btn-primary" ng-click="addLanguage();">
+		                </div>
+                    </div>
+
+
+                </div>
+                <h2>Admin Email Values</h2>
+                <div class="form-group">
+                    <label class="control-label" for="cmsurl">CMS URL</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="settings.cmsurl" id="cmsurl" class="form-control" placeholder="http" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="cmsname">CMS Name</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="settings.cmsname" id="cmsname" class="form-control" placeholder="US Staging" required>
+                    </div>
+                </div>
+                <hr/>
+
+
+                <h2>Metadata Values</h2>
+
+                <div class="form-group">
+                    <label class="control-label" for="owner">IBM Site Owner</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="settings.siteOwner" id="owner" class="form-control" placeholder="IBM Site Owner" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="copyright">Copyright</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="settings.copyright" id="copyright" class="form-control" placeholder="copyright" required>
+                    </div>
+                </div>
+                <hr/>
+
+                <h2>Content Filters</h2>
+                <div class="form-group">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default" ng-click="addFilter()">Add Content Filter</button>
+                    </div>
+                </div>
+                <div class="form-group" ng-repeat="filter in settings.filters">
+                    <div class="form-group">
+                        <div class="controls pull-right">
+                            <button type="button" class="btn btn-danger" ng-click="removeFilter($index)">Remove Filter</button>
+                        </div>
+                        <label class="control-label" for="filtername">Filter Name</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="filter.name" id="filtername" class="form-control" placeholder="filter name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="filtername">Filter Tags</label>
+                        <div class="controls">
+                            <tags-input ng-model="filter.tags" min-length="1" placeholder="filter tags"></tags-input>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="filtername">Multiple Select?</label>
+                        <div class="controls">
+                            <input type="checkbox" ng-model="filter.multiselect" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="filtername">Required?</label>
+                        <div class="controls">
+                            <input type="checkbox" ng-model="filter.required" />
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+
+                <tabset>
+                    <tab ng-repeat="language in settings.languages" heading="{{language.name}}" select="changeLanguage(language)"></tab>
+                </tabset>
+
+
+                <div class="form-group" ng-repeat="item in settings.dictionary[activeLanguage] | filter: {key: 'quotestyle'}">
+                    <label class="control-label" for="language">{{item.name}}</label>
+                    <div class="controls setting-dropdown">
+                        <select data-ng-model="item.value" id="quotestyle" class="btn btn-default form-control ui-select-match">
+                            <option lang="en" value="standard">Default &quot; &quot;</option>
+                            <option lang="ja" value="asian">Asian &#65378; &#65379;</option>
+                            <option lang="fr" value="french">French/Spanish &laquo; &raquo;</option>
+                            <option lang="de" value="german">German/Russian  &#8222; &#8220;</option>
+
+                        </select>
+
+                    </div>
+                </div>
+                <hr/>
+
+                <h2>Site Labels</h2>
+                <div class="form-group" ng-repeat="item in settings.dictionary[activeLanguage] | filter: {key: '!quotestyle'}">
+                    <label class="control-label" for="site_nav_label">{{item.name}}</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="item.value" class="form-control"> 
+                        <div class="btn-group">
+                            <button class="btn btn-danger" data-ng-click="removeKey(item);">Remove Key</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="site_nav_label">Add New Key</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="key.name" class="form-control" placeholder="Display Name">
+                        <input type="text" data-ng-model="key.key" class="form-control" placeholder="Key">
+                        <input type="hidden" data-ng-model="key.value">
+                        <button type="button" class="btn btn-default" ng-click="addKey(key)">Add Key</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-primary">
+                </div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+            </fieldset>
+        </form>
+    </div>
+</section>

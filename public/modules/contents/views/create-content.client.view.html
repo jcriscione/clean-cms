@@ -1,0 +1,86 @@
+<section class="content-container" data-ng-controller="ContentsController" data-ng-init="initNew()">
+    <div class="page-header">
+        <h1>New Content</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-horizontal" name="contentForm" data-ng-submit="create()" novalidate>
+            <fieldset>
+                <div class="form-group" ng-class="{'has-error' : contentForm.name.$invalid}">
+                    <label class="control-label" for="name">Name</label>
+                    <div class="controls">
+                        <input type="text" ng-model="content.name" id="name" name="name" class="form-control" placeholder="Enter a name" required>
+                        <p ng-show="contentForm.name.$invalid" class="help-block">Content name is required.</p>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-repeat="filter in settings.filters">
+                    <label class="control-label" for="name">{{filter.name}}</label>
+                    <div class="controls">
+                        <div
+                                isteven-multi-select
+                                input-model="filter.tags"
+                                name="contentForm[filter.name]"
+                                output-model="content.filters[filter.name]"
+                                button-label="text"
+                                item-label="text"
+                                tick-property="ticked"
+                                selection-mode="{{filter.multiselect ? 'multiple':'single'}}"
+                                >
+                        </div>
+                        <p ng-show="filter.invalid" class="help-block">{{filter.name}} is required.</p>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{'has-error' : contentForm.type.$invalid}">
+                    <label class="control-label" for="name">Content Type</label>
+                    <div class="controls">
+                        <ui-select ng-model="content.type.selected"
+                            name="type"
+                            theme="bootstrap"
+                            reset-search-input="false"
+                            style="width: 300px;" ng-change="changeContentType($select.selected)" required>
+                            <ui-select-match placeholder="Enter a content type...">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="contenttype in contenttypes | orderBy: 'name'"
+                                refresh-delay="0">
+                            <div ng-bind="contenttype.name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <p ng-show="contentForm.type.$invalid" class="help-block">Content type is required.</p>
+                    </div>
+                </div>
+
+                <!--
+                <div class="form-group">
+                    <label class="control-label" for="name">Campaigns</label>
+                    <div class="controls">
+                        <div
+                            isteven-multi-select
+                            input-model="campaigns"
+                            output-model="content.filters.campaigns"
+                            button-label="filter_label"
+                            item-label="filter_label"
+                            tick-property="ticked"
+                        >
+                        </div>
+                    </div>
+                </div>
+                -->
+
+                <tabset ng-show="fields.length">
+                    <tab ng-repeat="language in settings.languages" heading="{{language.locale}}" select="changeLanguage(language)"></tab>
+                </tabset>
+                <div ng-repeat="field in fields">
+                    <div dynamic-field model="content.languages[activeLanguage.locale][field.name]"
+                        field="field" default-language="settings.languages[0].locale"
+                        active-language="activeLanguage.locale"></div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" ng-disabled="contentForm.$invalid">
+                </div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+            </fieldset>
+        </form>
+    </div>
+</section>

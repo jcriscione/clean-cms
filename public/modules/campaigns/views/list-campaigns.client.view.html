@@ -1,0 +1,43 @@
+<section class="content-container loaded-{{loaded}} list" data-ng-controller="CampaignsController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Campaigns</h1>
+    </div>
+    <div class="row" data-ng-repeat="campaign in campaigns | orderBy: 'name'">
+        <div class="col-sm-9">
+            <a data-ng-href="#!/campaigns/{{campaign._id}}">
+                <h4 class="" data-ng-bind="campaign.campaign_name"></h4>
+            </a><br/>
+			<small>
+				<em class="text-muted">
+					Created on
+					<span data-ng-if="!campaign.created">Jan 1 2015</span>
+					<span data-ng-if="campaign.created" data-ng-bind="campaign.created | date:'mediumDate'"></span>
+					by
+					<span data-ng-if="!campaign.creator">admin</span>
+					<span data-ng-if="campaign.creator" data-ng-bind="campaign.creator"></span>
+				</em>
+			</small>
+        </div>
+        <div class="col-sm-3">
+	        <div class="btn-group pull-right hidden-xs">
+	            <a class="btn btn-info" href="#!/campaigns/{{campaign._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(campaign);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+	        <div class="btn-group visible-xs">
+	            <a class="btn btn-info" href="#!/campaigns/{{campaign._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(campaign);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+        </div>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!campaigns.$resolved || campaigns.length">
+    	No Campaigns yet, why don't you <a href="/#!/campaigns/create">create one</a>?
+    </div>
+</section>

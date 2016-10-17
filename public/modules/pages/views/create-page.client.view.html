@@ -1,0 +1,401 @@
+<section class="content-container loaded-{{loaded}}" data-ng-controller="PagesController" data-ng-init="initNew()">
+    <div class="page-header">
+        <h1>New Page</h1>
+    </div>
+    <div class="col-md-12">
+        <form name="pageForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <h2>Page Info</h2>
+                    <div class="col-md-6">
+                        <div class="form-group" ng-class="{ 'has-error' : pageForm.name.$invalid}">
+                            <label class="control-label" for="name">Display Name</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="page.name" id="name" name="name" class="form-control" placeholder="Name" required>
+                                <p ng-show="pageForm.name.$invalid" class="help-block">Page name is required.</p>
+                            </div>
+                        </div>
+                        <div class="form-group"  ng-class="{ 'has-error' : pageForm.template.$invalid}">
+                            <label class="control-label" for="name">Template</label>
+                            <div class="controls">
+                                <input type="text" name="template" ng-model="page.template" placeholder="Enter a template" typeahead="item as item.name for item in getTemplates($viewValue)" typeahead-on-select="onTemplateSelect($item)" typeahead-input-formatter="$model.name" class="form-control" ng-required="!page.section_only">
+                                <p ng-show="pageForm.template.$invalid" class="help-block">Template is required.</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : pageForm.parent.$invalid }">
+                            <label class="control-label" for="name">Parent Page</label>
+                            <div class="controls">
+                                <input type="text" name="parent" ng-model="page.parent" placeholder="Enter a parent page" typeahead="item as item.name for item in getPages($viewValue)" typeahead-input-formatter="$model.name" class="form-control" required>
+                                <p ng-show="pageForm.parent.$invalid" class="help-block">Parent page is required.</p>
+                            </div>
+                        </div>
+                        <!--div class="form-group">
+                            <label class="control-label" for="section_only">Section Header Only? (i.e. this page does not have content)</label>
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.section_only" name="section_only" id="section_only" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="hide_nav">Hide Sub-Nav? (i.e. no drop down will appear if it is a parent page)</label>
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.hide_nav" name="hide_nav" id="hide_nav" class="form-control">
+                            </div>
+                        </div-->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" ng-class="{ 'has-error' : pageForm.url.$invalid}">
+                            <label class="control-label" for="url">Url</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="page.url" id="url" name="url" class="form-control" placeholder="Url" required>
+                                <p ng-show="pageForm.url.$invalid" class="help-block">Page url is required.</p>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : pageForm.canonical.$invalid}">
+                            <label class="control-label" for="canonical-url">Canonical URL</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="page.canonical_url" id="canonical-url" name="canonical" class="form-control" placeholder="Canonical URL" ng-required="!page.section_only">
+                                <p ng-show="pageForm.canonical.$invalid" class="help-block">Canonical url is required.</p>
+                            </div>
+                        </div>
+                        <!--div class="form-group">
+                            <label class="control-label" for="date">Start Date</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="page.start_date" id="date" class="form-control" placeholder="Start Date (MM/DD/YYYY)">
+                            </div>
+                        </div-->
+                        <div class="form-group" ng-class="{ 'has-error' : pageForm.sort.$invalid}">
+                            <label class="control-label" for="name">Sort Order</label>
+                            <div class="controls">
+                                <input type="number" data-ng-model="page.sort" id="sort" name="sort" class="form-control" placeholder="Sort Order" required>
+                                <p ng-show="pageForm.sort.$invalid" class="help-block">Sort order is required.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.section_only" name="section_only" id="section_only" class="form-control" />
+                                <label class="control-label" for="section_only">
+                                    Section Header Only?
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.hide_nav" name="hide_nav" id="hide_nav" class="form-control">
+                                <label class="control-label" for="hide_nav">Hide Children in Nav?</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.orphan_page" name="orphan_page" id="orphan_page" class="form-control" />
+                                <label class="control-label" for="orphan_page">
+                                    Suppress page from Top Nav (orphan)?
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.hide_in_footer" name="hide_in_footer" id="hide_in_footer" class="form-control" />
+                                <label class="control-label" for="hide_in_footer">
+                                    Suppress page from Footer?
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.hide_top_nav" name="hide_top_nav" id="hide_top_nav" class="form-control">
+                                <label class="control-label" for="hide_top_nav">Hide top nav on page?</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h2>Display Functionality</h2>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="deeplink_nav">Show deeplink dots? (i.e. dots on right to show page location)</label>
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.deeplink_nav" name="deeplink_nav" id="deeplink_nav" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="parallax_page">Turn on full page parallax (all sections parallax)</label>
+                            <div class="controls">
+                                <input type="checkbox" data-ng-model="page.parallax_page" name="parallax_page" id="parallax_page" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <tabset>
+                    <tab ng-repeat="language in settings.languages" heading="{{language.name}}" select="changeLanguage(language)"></tab>
+                </tabset>
+
+                <div class="form-group-alt">
+                    <h2>Metadata</h2>
+
+                     <div class="form-group" ng-class="{ 'has-error' : pageForm.title.$invalid}">
+                        <label class="control-label" for="title">Page Title</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="page.languages[activeLanguage].page_title" id="title" name="title" class="form-control" placeholder="Title" required>
+                            <p ng-show="pageForm.title.$invalid" class="help-block">Page title is required.</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : pageForm.keywords.$invalid}">
+                        <label class="control-label" for="keywords">Keywords (comma separated)</label>
+                        <div class="controls">
+                            <textarea  data-ng-model="page.languages[activeLanguage].page_keywords" id="keywords" name="keywords" class="form-control" placeholder="Keywords" ng-required="!page.section_only"></textarea>
+                            <p ng-show="pageForm.keywords.$invalid" class="help-block">Keywords are required.</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : pageForm.description.$invalid}">
+                        <label class="control-label" for="description">Description</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="page.languages[activeLanguage].page_description" id="description" name="description" class="form-control" placeholder="Description" ng-required="!page.section_only">
+                            <p ng-show="pageForm.description.$invalid" class="help-block">Page description is required.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="navlabel">Page Label for Nav</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="page.languages[activeLanguage].navlabel" id="navlabel" class="form-control" placeholder="label">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="subtitle">Page Sub-title for Nav</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="page.languages[activeLanguage].pagesubtitle" id="subtitle" class="form-control" placeholder="subtitle">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group-alt">
+                    <h2>Facebook Data</h2>
+                    <div class="form-group">
+                        <label class="control-label" for="og-image">OG Image</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="page.languages[activeLanguage].og_image" id="og-image" class="form-control" placeholder="OG Image URL" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="og-title">OG Title</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="page.languages[activeLanguage].og_title" id="og-title" class="form-control" placeholder="OG Page Title" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="og-description">OG Description</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="page.languages[activeLanguage].og_description" id="og-description" class="form-control" placeholder="OG Page Description" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="og-description">OG URL</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="page.languages[activeLanguage].og_url" id="og-description" class="form-control" placeholder="OG Page URL">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <hr />
+
+                    <div class="form-group-alt">
+
+                        <h2>Contact Settings</h2>
+
+                        <div class="form-group">
+                            <label class="control-label" for="contact_enabled">Enable Contact Widget?</label>
+                            <div class="controls setting-dropdown">
+                                <select data-ng-model="page.languages[activeLanguage].contact_enabled"
+                                        id="contact_enabled" class="btn btn-default form-control ui-select-match">
+                                    <option value="false">No</option>
+                                    <option value="true">Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="control-label" for="contact_label">Contact Tab Closed Label</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="page.languages[activeLanguage].contact_label" id="contact_label" class="form-control" placeholder="Contact IBM">
+                            </div>
+
+                            <label class="control-label" for="contact_open_label">Contact Tab Open Label</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="page.languages[activeLanguage].contact_open_label" id="contact_open_label" class="form-control" placeholder="Considering a purchase?">
+                            </div>
+
+                            <h4>Chat Settings</h4>
+
+                            <label class="control-label" for="chat_enabled">Enable Chat?</label>
+                            <div class="controls setting-dropdown">
+                                <select data-ng-model="page.languages[activeLanguage].chat_enabled"
+                                        id="chat_enabled" class="btn btn-default form-control ui-select-match">
+                                    <option value="false">No</option>
+                                    <option value="true">Yes</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="chat_script">Chat Script</label>
+                                <div class="controls">
+                                    <input type="text" id="chat_script" class="form-control"
+                                           data-ng-model="page.languages[activeLanguage].chat_script"
+                                           placeholder="script.." />
+                                </div>
+                            </div>
+
+                            <!--div class="form-group">
+                                <label class="control-label" for="chat_label">Chat Label</label>
+                                <div class="controls">
+                                    <input type="text" d="chat_label" class="form-control"
+                                        data-ng-model="page.languages[activeLanguage].chat_label"
+                                        placeholder="Chat now" />
+                                </div>
+                            </div-->
+                            <h4>Email Settings</h4>
+
+                            <div class="form-group">
+                                <label class="control-label" for="email_enabled">Enable Email?</label>
+                                <div class="controls setting-dropdown">
+                                    <select data-ng-model="page.languages[activeLanguage].email_enabled"
+                                            id="email_enabled" class="btn btn-default form-control ui-select-match">
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="email_type">Email Type</label>
+                                <div class="controls setting-dropdown">
+                                    <select data-ng-model="page.languages[activeLanguage].email_type"
+                                            id="email_type" class="btn btn-default form-control ui-select-match">
+                                        <option value="none">none</option>
+                                        <option value="campaign_manager">in-page campaign manager form</option>
+                                        <option value="iwm_link">link to existing iwm form</option>
+                                        <option value="iwm_form">in-page iWMaaS form</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="email_target">Campaign ID or email</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="page.languages[activeLanguage].email_target"
+                                           id="email_target" class="form-control" />
+                                </div>
+                            </div>
+
+                            <h4>Phone Settings</h4>
+                            <div class="form-group">
+                                <label class="control-label" for="phone_number">Phone Number</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="page.languages[activeLanguage].phone_number"
+                                           id="phone_number" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="priority_code">Priority Code</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="page.languages[activeLanguage].priority_code"
+                                           id="priority_code" class="form-control" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group-alt">
+                        <h2>CRM Scripts (non-MRS)</h2>
+
+                        <label class="control-label" for="marketo_enabled">Enable Marketo?</label>
+                        <div class="controls setting-dropdown">
+                            <select data-ng-model="page.languages[activeLanguage].marketo_enabled"
+                                    id="marketo_enabled" class="btn btn-default form-control ui-select-match">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="marketo_script">Marketo Script</label>
+                            <div class="controls">
+                                <input type="text" id="marketo_script" class="form-control"
+                                       data-ng-model="page.languages[activeLanguage].marketo_script"
+                                       placeholder="script.." />
+                            </div>
+                        </div>
+
+                        <label class="control-label" for="munchkin_enabled">Enable Munchkin?</label>
+                        <div class="controls setting-dropdown">
+                            <select data-ng-model="page.languages[activeLanguage].munchkin_enabled"
+                                    id="munchkin_enabled" class="btn btn-default form-control ui-select-match">
+                                <option value="false">No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="munchkin_script">Munchkin Script</label>
+                            <div class="controls">
+                                <input type="text" id="munchkin_script" class="form-control"
+                                       data-ng-model="page.languages[activeLanguage].munchkin_script"
+                                       placeholder="script.." />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <hr/>
+                    <h2>Locations</h2>
+                    <div ng-repeat="location in page.locations">
+                        <button type="button" class="btn btn-primary pull-right" ng-click="addContentToLocation($index)">Add Content</button>
+                        <h3>{{location.name}}</h3>
+                        <div class="form-group" ng-repeat="content in location.contents | orderBy: 'name'">
+                            <br/>
+                            <ng-form name="myForm">
+                                <!--label class="control-label" for="fieldname">Content</label-->
+                                <div class="controls" ng-class="{ 'has-error' : myForm.$invalid}">
+                                    <div class="pull-right">
+
+                                        <button type="button" class="btn-up" ng-click="moveItemUp($parent.$index, $index)" ng-disabled="$first"></button>
+                                        <button type="button" class="btn-down" ng-click="moveItemDown($parent.$index, $index)" ng-disabled="$last"></button>
+                                        <button type="button" class="btn-remove" ng-click="removeContentFromLocation($parent.$index, $index)"></button>
+                                    </div>
+                                    <input type="text" ng-model="content" placeholder="Enter a content item" typeahead="item as item.name for item in getContent($viewValue)" typeahead-editable="false" typeahead-on-select="onContentSelect($item, $parent.$index, $index)" typeahead-input-formatter="$model.name" class="form-control" required>
+                                    <p ng-show="myForm.$invalid" class="help-block">Content is required.</p>
+                                </div>
+                            </ng-form>
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <hr/>
+                    <input type="submit" class="btn btn-primary" value="Submit" ng-disabled="pageForm.$invalid">
+                    <button type="button" class="btn btn-success" ng-click="publishPage(page)" ng-show="authentication.isAdmin()" ng-disabled="pageForm.$invalid">Publish</button>
+
+                </div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+            </fieldset>
+        </form>
+    </div>
+</section>

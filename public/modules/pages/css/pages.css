@@ -1,0 +1,113 @@
+.page-site-tree .site-tree {
+	font-size: 1.1em;
+}
+
+.site-tree a {
+	color: #2b669a;
+}
+	.site-tree a:hover {
+		text-decoration: none;
+	}
+
+.site-tree > li {
+	padding: 2px 0;
+}
+	.site-tree > li:hover,
+	.site-tree > li.is-open {
+		background-color: #efefef;
+	}
+
+.site-tree .glyphicon {
+	font-size: 80%;
+	line-height: 2.5;
+	margin-left: -1.3em;
+}
+	.site-tree .glyphicon:not(.tree-childless) {
+		cursor: pointer;
+	}
+	.page-view-page .site-tree .glyphicon {
+		top: 0;
+		margin-left: 0.5em;
+	}
+	.site-tree .glyphicon:hover {
+		opacity: 0.8;
+	}
+	.site-tree .glyphicon.tree-childless {
+		opacity: 0.4;
+	}
+
+.site-tree .is-open .tree-page {
+	border-bottom: 3px solid #fff;
+}
+
+.site-tree .tree-page-name,
+.site-tree .tree-contents {
+	margin-left: 1em;
+}
+
+.site-tree .page-level-0 .tree-page-name,
+.site-tree .page-level-0 .tree-locations {
+	padding-left: 20px;
+}
+.site-tree .page-level-1 .tree-page-name,
+.site-tree .page-level-1 .tree-locations {
+	padding-left: 40px;
+}
+.site-tree .page-level-2 .tree-page-name,
+.site-tree .page-level-2 .tree-locations {
+	padding-left: 60px;
+}
+.site-tree .page-level-3 .tree-page-name,
+.site-tree .page-level-3 .tree-locations {
+	padding-left: 80px;
+}
+
+.site-tree .tree-page-name {
+	padding-bottom: 0.1em;
+	line-height: 1;
+}
+
+.site-tree .is-open .tree-page-name a {
+	font-family: 'HelvBoldIBM', 'Helvetica-Bold', sans-serif;
+}
+
+.site-tree .tree-content-name {
+	margin-left: 2em;
+}
+
+.site-tree .tree-page-url {
+	line-height: 1.7;
+}
+
+.page-site-tree .site-tree .tree-contents {
+	padding-top: 20px;
+}
+
+.site-tree .tree-location-name {
+	font-family: 'HelvBoldIBM', 'Helvetica-Bold', sans-serif;
+}
+
+.site-tree .tree-collections {
+	border-left: 3px solid #ddd;
+	padding-bottom: 0.1em;
+	padding-left: 1em;
+}
+	.page-site-tree .site-tree .tree-collections {
+		margin-left: -0.7em;
+	}
+	.page-view-page .site-tree .tree-collections {
+		margin-left: 0.75em;
+	}
+.site-tree .tree-collections > li {
+	position: relative;
+}
+
+.site-tree .tree-item-type {
+	display: none;
+	font-weight: normal;
+	vertical-align: middle;
+	letter-spacing: 0.05em;
+}
+	.site-tree a:hover + .tree-item-type {
+		display: inline;
+	}

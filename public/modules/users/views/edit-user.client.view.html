@@ -1,0 +1,76 @@
+<section class="content-container" data-ng-controller="UserController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1>Edit User</h1>
+	</div>
+	<div class="col-md-12">
+		<form name="userForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+			<fieldset>
+				<small>
+					<em class="text-muted">
+						Created on
+						<span data-ng-if="!user.created">Jan 1 2015</span>
+						<span data-ng-if="user.created" data-ng-bind="user.created | date:'mediumDate'"></span>
+						by
+						<span data-ng-if="!user.creator">admin</span>
+						<span data-ng-if="user.creator" data-ng-bind="user.creator"></span>
+					</em>
+				</small>
+				
+				<div class="form-group"  ng-class="{ 'has-error' : userForm.username.$invalid}">
+					<label class="control-label" for="username">Username</label>
+					<div class="controls">
+						<input name="username" type="text" data-ng-model="user.username" id="username" class="form-control" placeholder="Username" required>
+						<p ng-show="userForm.username.$invalid" class="help-block">Username is required.</p>
+					</div>
+				</div>
+
+				<div class="form-group"  ng-class="{ 'has-error' : userForm.email.$invalid}">
+					<label class="control-label" for="email">Email</label>
+					<div class="controls">
+						<input type="email" name="email" data-ng-model="user.email" id="email" class="form-control" placeholder="Email" required></input>
+						<p ng-show="userForm.email.$invalid" class="help-block">Email is required.</p>
+					</div>
+				</div>
+
+				<div class="form-group"  ng-class="{ 'has-error' : userForm.password.$invalid}" ng-show="user.isLocal">
+					<label class="control-label" for="password">Password</label>
+					<div class="controls">
+						<input type="password" name="password" data-ng-model="user.password" id="password" class="form-control" placeholder="Password" ng-required="user.password"></input>
+						<p ng-show="userForm.password.$invalid" class="help-block">Password is required.</p>
+					</div>
+				</div>
+
+				<div class="form-group"  ng-class="{ 'has-error' : userForm.confirm.$invalid}" ng-show="user.isLocal">
+					<label class="control-label" for="password">Confirm Password</label>
+					<div class="controls">
+						<input type="password" name="confirm" data-ng-model="confirmPassword" id="confirm" class="form-control" placeholder="Confirm Password" ng-required="user.password"></input>
+						<p ng-show="userForm.confirm.$invalid" class="help-block">Password confirmation is required.</p>
+					</div>
+				</div>
+
+				<div class="form-group"  ng-class="{ 'has-error' : userForm.role.$invalid}">
+                        <label class="control-label" for="name">Roles</label>
+                        <div class="controls">
+                            <ui-select name="role" ng-model="user.roles.selected"
+                                       theme="bootstrap"
+                                       reset-search-input="false"
+                                       style="width: 300px;" required>
+                                <ui-select-match placeholder="Enter a role...">{{$select.selected}}</ui-select-match>
+                                <ui-select-choices repeat="role in roles track by $index"
+                                                   refresh-delay="0">
+                                    <div ng-bind="role | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <p ng-show="userForm.role.$invalid" class="help-block">Role is required.</p>
+                        </div>
+                    </div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-primary" value="Submit" ng-disabled="userForm.$invalid">
+				</div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</section>

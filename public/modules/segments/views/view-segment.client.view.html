@@ -1,0 +1,23 @@
+<section class="content-container loaded-{{loaded}}" data-ng-controller="SegmentsController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1 data-ng-bind="segment.name"></h1>
+	</div>
+	<div class="pull-right">
+		<a class="btn btn-primary" href="/#!/segments/{{segment._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		<a class="btn btn-primary" data-ng-click="confirmRemove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+	<small>
+		<em class="text-muted">
+			Created on
+			<span data-ng-if="!segment.created">Jan 1 2015</span>
+			<span data-ng-if="segment.created" data-ng-bind="segment.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-if="!segment.creator">admin</span>
+			<span data-ng-if="segment.creator" data-ng-bind="segment.creator"></span>
+		</em>
+	</small>
+</section>

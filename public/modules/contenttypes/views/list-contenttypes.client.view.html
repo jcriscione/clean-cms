@@ -1,0 +1,46 @@
+<section class="content-container loaded-{{loaded}} list" data-ng-controller="ContenttypesController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Content Types</h1>
+    </div>
+
+    <div class="row" data-ng-repeat="contenttype in contenttypes | orderBy: 'name'">
+        <div class="col-sm-9">
+            <a data-ng-href="#!/contenttypes/{{contenttype._id}}">
+                <h4 class="" data-ng-bind="contenttype.name"></h4>
+            </a><br/>
+			<small>
+				<em class="text-muted">
+					Created on
+					<span data-ng-if="!contenttype.created">Jan 1 2015</span>
+					<span data-ng-if="contenttype.created" data-ng-bind="contenttype.created | date:'mediumDate'"></span>
+					by
+					<span data-ng-if="!contenttype.creator">admin</span>
+					<span data-ng-if="contenttype.creator" data-ng-bind="contenttype.creator"></span>
+				</em>
+			</small>
+        </div>
+        <div class="col-sm-3">
+	        <div class="btn-group pull-right hidden-xs">
+	            <a class="btn btn-info" href="#!/contenttypes/{{contenttype._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(contenttype);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+	        <div class="btn-group visible-xs">
+	            <a class="btn btn-info" href="#!/contenttypes/{{contenttype._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(contenttype);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+        </div>
+    </div>
+
+
+    <div class="alert alert-warning text-center" data-ng-hide="!contenttypes.$resolved || contenttypes.length">
+    	No Contenttypes yet, why don't you <a href="/#!/contenttypes/create">create one</a>?
+    </div>
+</section>

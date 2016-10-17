@@ -1,0 +1,28 @@
+<section class="content-container" data-ng-controller="TemplatesController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1 data-ng-bind="template.name"></h1>
+	</div>
+	<div class="pull-right">
+		<a class="btn btn-primary" href="/#!/templates/{{template._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		<a class="btn btn-primary" data-ng-click="confirmRemove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+	<small>
+		<em class="text-muted">
+			Created on
+			<span data-ng-if="!template.created">Jan 1 2015</span>
+			<span data-ng-if="template.created" data-ng-bind="template.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-if="!template.creator">admin</span>
+			<span data-ng-if="template.creator" data-ng-bind="template.creator"></span>
+		</em>
+	</small>
+    <div ng-repeat="location in template.locations">
+        <div class="form-group">
+           <h3>{{location.name}}</h3>
+        </div>
+    </div>
+</section>

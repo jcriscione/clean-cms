@@ -1,0 +1,48 @@
+<section class="content-container list" data-ng-controller="UserController" data-ng-init="find()">
+	<div class="page-header">
+		<h1>Users</h1>
+	</div>
+
+    <div class="row" data-ng-repeat="user in users | orderBy: 'username'">
+        <div class="col-sm-9">
+            <a data-ng-href="#!/users/{{user._id}}">
+                <h4 class="" data-ng-bind="user.username || user.userDisplayName"></h4>
+            </a><br/>
+            <span data-ng-bind="user.role"></span>
+
+            <small>
+				<em class="text-muted">
+					Created on
+					<span data-ng-if="!user.created">Jan 1 2015</span>
+					<span data-ng-if="user.created" data-ng-bind="user.created | date:'mediumDate'"></span>
+					by
+					<span data-ng-if="!user.creator">admin</span>
+					<span data-ng-if="user.creator" data-ng-bind="user.creator"></span>
+				</em>
+			</small>
+        </div>
+        <div class="col-sm-3">
+	        <div class="btn-group pull-right hidden-xs">
+	            <a class="btn btn-info" href="#!/users/{{user._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(user);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+	        <div class="btn-group visible-xs">
+	            <a class="btn btn-info" href="#!/users/{{user._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(user);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+        </div>
+    </div>
+
+
+	<div class="alert alert-warning text-center" data-ng-if="users.$resolved && !users.length">
+		No users yet, why don't you <a href="/#!/users/create">create one</a>?
+	</div>
+</section>

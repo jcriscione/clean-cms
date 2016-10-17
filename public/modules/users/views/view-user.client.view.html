@@ -1,0 +1,23 @@
+<section class="content-container " data-ng-controller="UserController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1 data-ng-bind="user.username"></h1>
+	</div>
+	<div class="pull-right">
+		<a class="btn btn-primary" href="/#!/users/{{user._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		<a class="btn btn-primary" data-ng-click="confirmRemove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+	<small>
+		<em class="text-muted">
+			Created on
+			<span data-ng-if="!user.created">Jan 1 2015</span>
+			<span data-ng-if="user.created" data-ng-bind="user.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-if="!user.creator">admin</span>
+			<span data-ng-if="user.creator" data-ng-bind="user.creator"></span>
+		</em>
+	</small>
+</section>

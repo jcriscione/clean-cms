@@ -1,0 +1,59 @@
+<section class="row home-display" data-ng-controller="AuthenticationController" style="">
+
+    <div class="" >
+        <!--img src="./modules/users/img/home-bg.jpg"/-->
+
+        <div class="col-xs-offset-2 col-xs-8  col-md-4">
+            <h2>Sign In with your account</h2><p>&nbsp;</p>
+            <form data-ng-submit="signin()" class="signin form-horizontal" autocomplete="off">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+                    </div>
+                    <div class="text-left form-group">
+                        <button type="submit" class="btn btn-primary">Sign in</button><!--&nbsp; or&nbsp;
+                        <a href="/#!/signup">Sign up</a-->
+                    </div>
+                    <div data-ng-show="error" class="text-center text-danger">
+                        <strong data-ng-bind="error"></strong>
+                    </div>
+
+                    <div class="forgot-password">
+                        <a href="/#!/password/forgot">Forgot your password?</a>
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+                    Or, <a href="/auth/ibm">log on with your IBM ID</a>
+                </fieldset>
+            </form>
+
+            If you don't have an account currently, but would like to request access, please <a href="../#!/signup">Sign Up</a>.
+
+            <!--h3 class="col-md-12 text-center">Sign in using your social accounts</h3>
+            <div class="col-md-12 text-center">
+                <a href="/auth/facebook" class="undecorated-link">
+                    <img src="/modules/users/img/buttons/facebook.png">
+                </a>
+                <a href="/auth/twitter" class="undecorated-link">
+                    <img src="/modules/users/img/buttons/twitter.png">
+                </a>
+                <a href="/auth/google" class="undecorated-link">
+                    <img src="/modules/users/img/buttons/google.png">
+                </a>
+                <a href="/auth/linkedin" class="undecorated-link">
+                    <img src="/modules/users/img/buttons/linkedin.png">
+                </a>
+                <a href="/auth/github" class="undecorated-link">
+                    <img src="/modules/users/img/buttons/github.png">
+                </a>
+            </div-->
+        </div>
+    </div>
+</section>

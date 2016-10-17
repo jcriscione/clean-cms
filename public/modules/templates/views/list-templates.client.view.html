@@ -1,0 +1,58 @@
+<section class="content-container list" data-ng-controller="TemplatesController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Templates</h1>
+    </div>
+
+    <div class="row" data-ng-repeat="template in templates | orderBy: 'name'">
+        <div class="col-sm-9">
+            <a data-ng-href="#!/templates/{{template._id}}">
+                <h4 class="" data-ng-bind="template.name"></h4>
+            </a><br/>
+			<small>
+				<em class="text-muted">
+					Created on
+					<span data-ng-if="!template.created">Jan 1 2015</span>
+					<span data-ng-if="template.created" data-ng-bind="template.created | date:'mediumDate'"></span>
+					by
+					<span data-ng-if="!template.creator">admin</span>
+					<span data-ng-if="template.creator" data-ng-bind="template.creator"></span>
+				</em>
+			</small>
+        </div>
+        <div class="col-sm-3">
+	        <div class="btn-group pull-right hidden-xs">
+	            <a class="btn btn-info" href="#!/templates/{{template._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(template);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+	        <div class="btn-group visible-xs">
+	            <a class="btn btn-info" href="#!/templates/{{template._id}}/edit">
+	                <i class="glyphicon glyphicon-edit"></i>
+	            </a>
+	            <a class="btn btn-danger" data-ng-click="confirmRemove(template);">
+	                <i class="glyphicon glyphicon-trash"></i>
+	            </a>
+	        </div>
+        </div>
+    </div>
+
+
+
+    <!--div class="list-group">
+        <a data-ng-repeat="template in templates" data-ng-href="#!/templates/{{template._id}}/edit" class="list-group-item">
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="template.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="template.user.username"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="template.name"></h4>
+        </a>
+    </div-->
+    <div class="alert alert-warning text-center" data-ng-hide="!templates.$resolved || templates.length">
+    	No Templates yet, why don't you <a href="/#!/templates/create">create one</a>?
+    </div>
+</section>

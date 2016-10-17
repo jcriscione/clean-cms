@@ -1,0 +1,134 @@
+<section class="content-container loaded-{{loaded}} page-view-page" data-ng-controller="PagesController"
+	data-ng-init="findOne()">
+
+	<div class="page-header">
+		<h1 data-ng-bind="page.name"></h1>
+	</div>
+	<div class="pull-right">
+
+		<button style="margin-left: 5px;" type="button" class="btn btn-success pull-right"
+			ng-click="publishPage(page)" ng-show="authentication.isAdmin()">Publish</button>
+		&nbsp;
+		<div class="dropdown pull-right">
+			<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1"
+				data-toggle="dropdown" aria-expanded="true">Preview<span class="caret"></span></button>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+				<li ng-repeat="language in settings.languages" role="presentation">
+					<a role="menuitem" tabindex="-1"
+						href="{{page.frontEndUrl}}/{{page.url}}?pvw={{page._id}}&language={{language.locale}}"
+						target="_blank">{{language.name}}</a>
+				</li>
+			</ul>
+		</div>
+		&nbsp;
+		<a class="btn btn-info pull-right" style="margin-right: 5px;" href="/#!/pages/{{page._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		&nbsp;
+	</div>
+	<small>
+		<em class="text-muted">
+			Created on
+			<span data-ng-if="!page.created">Jan 1 2015</span>
+			<span data-ng-if="page.created" data-ng-bind="page.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-if="!page.creator">admin</span>
+			<span data-ng-if="page.creator" data-ng-bind="page.creator"></span>
+		</em>
+		<br/>
+		<em class="text-muted" data-ng-if="page.published">
+			Published on
+			<span data-ng-bind="page.published | date:'mediumDate'"></span>
+			by
+			<span data-ng-bind="page.publisher"></span>
+		</em>
+	</small>
+
+	<hr />
+
+	<h2>Page Info</h2>
+	<div class="form-group">
+		<label class="control-label">Display Name</label> : <span data-ng-bind="page.name"></span>
+	</div>
+	<div class="form-group">
+		<label class="control-label">Template</label> : <span data-ng-bind="page.template.name"></span>
+	</div>
+	<div class="form-group">
+		<label class="control-label">Parent Page</label> : <span data-ng-bind="page.parent.name"></span>
+	</div>
+	<div class="form-group">
+		<label class="control-label">Section Header Only? (i.e. this page does not have content)</label> :
+		<span data-ng-bind="page.section_only"></span>
+	</div>
+
+	<!--div class="form-group-alt">
+		<h2>Metadata</h2>
+
+		<div class="form-group">
+			<label class="control-label" for="title">Page Title</label> :
+			<span data-ng-bind="page.page_title" class=""></span>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="keywords">Keywords (comma separated)</label> :
+			<span data-ng-bind="page.page_keywords" class=""></span>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="description">Description</label> :
+			<span data-ng-bind="page.page_description" class=""></span>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="canonical-url">Canonical URL</label> :
+			<span data-ng-bind="page.canonical_url" class=""></span>
+		</div>
+	</div>
+	<div class="form-group-alt">
+		<h2>Facebook Data</h2>
+		<div class="form-group">
+			<label class="control-label" for="og-image">OG Image URL</label>:
+			<span data-ng-bind="page.og_image" class=""></span>
+
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="og-title">OG Title</label>:
+			<span data-ng-bind="page.og_title" class=""></span>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="og-description">OG Description</label>:
+			<span data-ng-bind="page.og_description" class=""></span>
+		</div>
+	</div-->
+
+	<hr />
+
+	<div class="site-tree">
+		<h2>Locations</h2>
+
+		<div class="tree-locations" data-ng-repeat="location in page.locations">
+			<h3>{{location.name}}</h3>
+
+			<ul class="tree-contents list-unstyled">
+				<li data-ng-repeat="content in location.contents">
+					<span aria-hidden=true data-ng-if="content.collection.length" class="glyphicon"
+						data-ng-class="{'glyphicon-minus': content.isOpen, 'glyphicon-plus': !content.isOpen}"
+						data-ng-click="content.isOpen = !content.isOpen">
+					</span>
+					<span aria-hidden=true data-ng-if="!content.collection.length"
+						class="glyphicon glyphicon-minus tree-childless"></span>
+
+					<a ui-sref="editContent({ contentId: content._id })">{{content.name}}</a>
+					<span class="label label-default tree-item-type">
+						<span data-ng-if="content.collection.length">collection:</span>
+						<span data-ng-if="!content.collection.length">content:</span>
+						{{content.type}}
+					</span>
+
+					<div tree-collections model="content.collection"
+						data-ng-if="content.collection.length" data-ng-hide="!content.isOpen"></div>
+				</li>
+			</ul>
+
+			<hr />
+		</div>
+	</div>
+
+</section>
